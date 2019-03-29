@@ -8,7 +8,7 @@ iCheck Filter List for WireBootstrap
  <p>
 Vendor: <a href="http://icheck.fronteed.com/" target="_blank">Damir Sultanov</a><br/>
 Support: <a href="https://help.wirebootstrap.com/support/discussions/forums/22000200289" target="_blank">WireBootstrap Forums</a><br/>
-Demo: <a href="http://icheck.fronteed.com">http://icheck.fronteed.com/</a><br>
+Demo: <a href="http://icheck.fronteed.com">http://icheck.fronteed.com</a><br>
   </p>
 <p>
 Field selection filter built with the iCheck plugin that features search and single/multi-select options
