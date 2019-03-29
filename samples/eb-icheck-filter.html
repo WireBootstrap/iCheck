@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- cosmetic, not needed for plugin -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- plugin dependency: jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    
+    <!-- plugin dependency: eb data access framework -->
+    <script src="/eb/build/lib/eb-all.min.js"></script>
+
+    <!-- plugin -->
+    <script src="../plugins/eb-icheck-list.js"></script>
+    <script src="../plugins/eb-icheck-filter.js"></script>
+
+    <script type="text/javascript">
+
+        var data = [ 
+                {Investor: "Vanguard International, Inc.", Selected: false},
+                {Investor: "MM Apple Ltd.", Selected: true},
+                {Investor: "Google Alphabet, Inc.", Selected: false}
+            ];
+        
+        var table = new eb.data.DataTable(data);
+        
+        function bind(){            
+            $("#filter1").ebIcheckFilter({
+                data: table,
+                schema: {name:"Investor"}
+            });  
+        }
+
+        $(document).ready(function(){
+            bind();            
+        })
+    
+    </script>
+
+</head>
+
+<body>
+    <div class="container" style="padding-top: 60px">
+                        
+        <div class="row">    
+            <div class="col-md-12">        
+
+                <div id="filter1" style="border:1px solid gray; padding:10px"></div>    
+                
+            </div>
+        
+        </div>
+     </div>
+
+</body>
+
+</html>

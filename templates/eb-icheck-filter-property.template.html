@@ -1,0 +1,64 @@
+
+<form class="smart-form">
+
+    <fieldset>
+
+        <div class="row">
+
+            <section class="col col-6">
+                <label>Name:</label>
+                <div eb-smartselect
+                     eb-data="fields()"
+                     eb-model="options.schema.name"
+                     data-class="checkbox state-default">
+                </div>
+                <span class="help-block">Specify the field to be used as the label for list items</span>
+            </section>
+
+            <section class="col col-6">
+                <label class="label">Selected Color:</label>
+                <label class="select">
+                    <select class="form-control" name='modelid' ng-model="options.color">
+                        <option value="aero">Aero</option>
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                        <option value="grey">Grey</option>
+                        <option value="orange">Orange</option>
+                        <option value="pink">Pink</option>
+                        <option value="purple">Purple</option>
+                        <option value="red">Red</option>
+                        <option value="yellow">Yellow</option>
+                    </select><i></i>
+                </label>
+                <span class="help-block">Specify the list item color when selected</span>
+            </section>
+
+        </div>
+
+    </fieldset>
+
+    <fieldset>
+
+        <div class="row">
+
+            <section class="col col-6">
+                <label class="label">Page Number</label>
+                <label class="input">
+                    <input type="number" placeholder="Page Number" ng-model="dataset.Query.Paging.Page">
+                </label>
+                <span class="help-block">To retrieve data in small increments, specify the first page number to pull.  This is typically 1. Use 0 to turn off paging.</span>
+            </section>
+            
+            <section class="col col-6">
+                <label class="label">Rows Per Page</label>
+                <label class="input">
+                    <input type="number" placeholder="Rows Per Page" ng-model="dataset.Query.Paging.Rows">
+                </label>
+                <span class="help-block">When using paging, specify how many rows to include on a single page.</span>
+            </section>
+  
+        </div>
+
+    </fieldset>
+
+</form>

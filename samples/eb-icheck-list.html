@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- cosmetic, not needed for plugin -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+    <!-- plugin dependency: jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    
+    <!-- plugin dependency: eb data access framework -->
+    <script src="/eb/build/lib/eb-all.min.js"></script>
+
+    <!-- plugin -->
+    <script src="../plugins/eb-icheck-list.js"></script>
+
+    <script type="text/javascript">
+
+        var data = [ 
+                {Name: "Vanguard International, Inc.", Selected: false},
+                {Name: "MM Apple Ltd.", Selected: true},
+                {Name: "Google Alphabet, Inc.", Selected: false}
+            ];
+        
+        var table = new eb.data.DataTable(data);
+        
+        function bind(){            
+            $("#checkbox1").ebIcheckList({
+                data: table,
+                skin: "line",
+                color: "green",
+                colorLineUnChecked: "grey"  
+            });  
+        }
+
+        $(document).ready(function(){
+            bind();            
+        })
+    
+    </script>
+
+</head>
+
+<body>
+    <div class="container" style="padding-top: 60px">
+                        
+        <div class="row">    
+            <div class="col-md-12">        
+
+                <div id="checkbox1"></div>    
+                
+            </div>
+        
+        </div>
+     </div>
+
+</body>
+
+</html>
