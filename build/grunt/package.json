@@ -5,6 +5,7 @@
   "license": "//cdn.wirebootstrap.com/libs/license/index.html",
   "dependencies": {
     "grunt-contrib-concat": "^0.1.3",
+    "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-uglify": "^1.0.2"
   },
   "devDependencies": {

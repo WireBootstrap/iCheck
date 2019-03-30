@@ -1,4 +1,3 @@
-
 (function () {
 
     $.fn.ebIcheckList = function (config) {
@@ -23,12 +22,12 @@
                 autoInit: true,
                 skin: "flat",
                 color: "blue",
-                colorLineUnChecked: null,
+                lineUnChecked:{ color: null, icon: true},
                 style: {
-                    ul: "list-style:none;padding-inline-start:5px",
-                    li: "padding-bottom:10px"
+                    ul: "eb-icheck-list-ul",
+                    li: "eb-icheck-list-li"
                 },
-                events: { itemClick: { callback: null, dataevent: "dataselect" } }
+                events: { itemClick: null }
             };
         }
 
@@ -40,14 +39,14 @@
 
             self.empty();
 
-            var root = $("<ul style=\"{0}\">".format(cfg.style.ul));
+            var root = $("<ul class=\"{0}\">".format(cfg.style.ul));
 
             self.append(root);
         
             d.Rows.forEach(function (row) {
 
                 var selected = eb.toBoolean(row[schema.selected], false);
-                var li = $("<li style=\"{0}\">".format(cfg.style.li));
+                var li = $("<li class=\"{0}\">".format(cfg.style.li));
 
                 root.append(li);
 
@@ -66,15 +65,15 @@
 
             function bindCheck($this, selected){
 
-                var color = (line && cfg.colorLineUnChecked && !selected) ? cfg.colorLineUnChecked: cfg.color;
+                var color = (line && cfg.lineUnChecked.color && !selected) ? cfg.lineUnChecked.color: cfg.color;
                 var check = {
                     checkboxClass: 'icheckbox_{0}-{1}'.format(cfg.skin, color),
                     radioClass: 'iradio_{0}-{1}'.format(cfg.skin, color)
                     //increaseArea: '10%'
                 };
 
-                if(line)
-                    check.insert = t.line + "<span>label</span>";
+                if(line) 
+                    check.insert = t.line.format((!selected && !cfg.lineUnChecked.icon) ? " eb-icheck_line-no-icon" : "") + "<span>label</span>";                
 
                 $this.iCheck(check).on('ifChecked', function(event){                
                     checkChanged(event, true, this);
@@ -90,19 +89,15 @@
             function checkChanged (e, checked, _this) {
 
                 // change disable color
-                if(line && cfg.colorLineUnChecked)
+                if(line && cfg.lineUnChecked.color)
                     bindCheck($(_this), checked)
 
                 // send out data event
                 var value = $(_this).val();
                 var row = d.where().eq(colId, value).first();
 
-                // data event               
-                var ev = new eb.data.DataEvent().source(self)
-                .cell(colId, value)
-                .column(d.getColumn(colId))
-                .row(row)
-                .table(d);
+                // data event                         
+                var ev = _dataEvent(value, row);
 
                 var sel = typeof row[schema.selected] != "undefined";
 
@@ -117,17 +112,15 @@
 
                 var ed = { base: e, data: ev.getData() };
 
-                if (cfg.events.itemClick.callback) {
-                    cfg.events.itemClick.callback(ed);
+                // custom callback
+                if (cfg.events.itemClick) {
+                    cfg.events.itemClick(ed);
                 }
 
-                if (cfg.events.itemClick.dataevent) {
-                    ev.event(cfg.events.itemClick.dataevent)
-                        .element(cmp.ListenerId(cfg.events.itemClick.dataevent))
-                        .raise();
-                }
+                // fire data event
+                ev.raise();
 
-                // local event
+                // local plugin event
                 self.trigger('itemClick', ed);
 
                 // write back
@@ -161,11 +154,25 @@
 
         }
 
+        function _dataEvent(value, row) {
+            
+            var d = cmp.data();
+            var colId = cmp.colId(schema);
+
+            return new eb.data.DataEvent()
+                .dataselect()
+                .source(self)
+                .cell(colId, value)
+                .column(d.getColumn(colId))
+                .row(row)
+                .table(d);
+            
+        }
         function _template() {
             return  {
                     input: "<input type=\"checkbox\" value=\"{0}\" {1}>", 
                     label: "<label style=\"padding-left:10px\">{0}</label>",
-                    line: "<div class=\"icheck_line-icon\"></div>"
+                    line: "<div class=\"icheck_line-icon{0}\"></div>"
             };
         }
 
@@ -177,6 +184,18 @@
             }
             else
                 cb();
+        }
+
+        this.clear = function(){
+            var d = cfg.data;
+            d.Query.where();
+            if(d.Query.Paging.Page > 1)
+                d.Query.page(1);
+            // refresh this dataset
+            d.refresh();
+            // issue clear to a anything listening
+            var ev = _dataEvent(null, null);
+            ev.action().clear().raise();        
         }
 
         this.getData = function () {
@@ -203,4 +222,3 @@
     }
 
 })();
-
